@@ -11,9 +11,9 @@ const Header = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.85, delay: 0.3, ease: [0.42, 0, 0.58, 1] }}
     >
-      <h3 className="integration-text m-0 pb-[12px] font-lato text-[9px] font-medium uppercase leading-none text-white">
+      <h3 className="integration-text font-lato m-0 pb-[12px] text-[9px] leading-none font-medium text-white uppercase">
         Advertising feature{' '}
-        <span className="reader-only">{`sponsored by ${BRAND_NAME}`}</span>
+        <span className="sr-only">{`sponsored by ${BRAND_NAME}`}</span>
       </h3>
       <CustomLink href={BRAND_URL} className="integration-logo group">
         <img

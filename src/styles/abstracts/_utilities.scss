@@ -2,7 +2,6 @@
 // This file contains all mixins and utility styles.
 // -----------------------------------------------------------------------------
 
-
 @mixin centreContent {
   align-items: center;
   display: flex;
@@ -31,7 +30,7 @@
   width: 100vw;
 }
 
-.reader-only {
+.sr-only {
   width: 1px;
   height: 1px;
   clip: rect(1px, 1px, 1px, 1px);

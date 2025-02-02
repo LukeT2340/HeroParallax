@@ -1,93 +1,93 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react';
 // import useExternalScripts from '../../hooks/useExternalScripts'
 
 interface VideoProps {
-  scriptUrl: string
-  playerId: string
-  videoId: string
-  className?: string
+  scriptUrl: string;
+  playerId: string;
+  videoId: string;
+  className?: string;
 }
 
 const VideoJS = React.forwardRef((props: any, ref: any) =>
   React.createElement('video-js', { ...props, ref })
-)
+);
 
 const useExternalScripts = (url: string) => {
-  const [loaded, setLoaded] = useState(false)
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    const script = document.createElement('script')
-    script.src = url
-    script.onload = () => setLoaded(true)
+    const script = document.createElement('script');
+    script.src = url;
+    script.onload = () => setLoaded(true);
 
-    document.body.appendChild(script)
+    document.body.appendChild(script);
 
     return () => {
-      document.body.removeChild(script)
-    }
-  }, [url])
+      document.body.removeChild(script);
+    };
+  }, [url]);
 
-  return loaded
-}
+  return loaded;
+};
 
 const Video = ({ scriptUrl, playerId, videoId, className }: VideoProps) => {
-  const scriptLoaded = useExternalScripts(scriptUrl)
-  const videoRef = useRef<HTMLDivElement>(null)
+  const scriptLoaded = useExternalScripts(scriptUrl);
+  const videoRef = useRef<HTMLDivElement>(null);
 
   const videoOptionsObserver = {
     root: null,
     rootMargin: '0px',
     threshold: 0.1,
-  }
+  };
 
   useEffect(() => {
-    if (!scriptLoaded) return
+    if (!scriptLoaded) return;
 
-    const videojs = (window as any).videojs
+    const videojs = (window as any).videojs;
 
     const videoObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          const video = entry.target
-          const videoID = video.getAttribute('id')
+          const video = entry.target;
+          const videoID = video.getAttribute('id');
           // @ts-ignore
-          const player = videojs.getPlayer(videoID)
+          const player = videojs.getPlayer(videoID);
 
           if (player.currentTime() !== 0 || player.currentTime() === 0) {
             player.ready(async () => {
-              const promise = player.play()
+              const promise = player.play();
               if (promise !== undefined) {
                 promise.catch(() => {
-                  player.play()
-                  player.mute()
-                })
+                  player.play();
+                  player.mute();
+                });
               }
-            })
+            });
           }
         } else {
           // @ts-ignore
           if (window.videojs) {
-            const video = entry.target
-            const videoID = video.getAttribute('id')
-            const player = videojs.getPlayer(videoID)
+            const video = entry.target;
+            const videoID = video.getAttribute('id');
+            const player = videojs.getPlayer(videoID);
             if (!player.paused()) {
-              player.pause()
+              player.pause();
             }
           }
         }
-      })
-    }, videoOptionsObserver)
+      });
+    }, videoOptionsObserver);
 
     if (videoRef.current) {
-      videoObserver.observe(videoRef.current)
+      videoObserver.observe(videoRef.current);
     }
 
     return () => {
       if (videoRef.current) {
-        videoObserver.unobserve(videoRef.current)
+        videoObserver.unobserve(videoRef.current);
       }
-    }
-  }, [scriptLoaded])
+    };
+  }, [scriptLoaded]);
 
   return (
     <div className={`${className}`}>
@@ -104,9 +104,9 @@ const Video = ({ scriptUrl, playerId, videoId, className }: VideoProps) => {
         muted
         loop
       />
-      <h3 className="reader-only">Video</h3>
+      <h3 className="sr-only">Video</h3>
     </div>
-  )
-}
+  );
+};
 
-export default Video
+export default Video;
