@@ -1,8 +1,8 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import reactRefresh from '@vitejs/plugin-react-refresh'
-import viteImagemin from 'vite-plugin-imagemin'
-import tsconfigPaths from 'vite-tsconfig-paths'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import reactRefresh from '@vitejs/plugin-react-refresh';
+import tsconfigPaths from 'vite-tsconfig-paths';
+import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -11,32 +11,13 @@ export default defineConfig({
     react(),
     reactRefresh(),
     tsconfigPaths(),
-    viteImagemin({
-      gifsicle: {
-        optimizationLevel: 7,
-        interlaced: false,
-      },
-      optipng: {
-        optimizationLevel: 7,
-      },
-      mozjpeg: {
+    ViteImageOptimizer({
+      png: {
         quality: 70,
       },
-      pngquant: {
-        quality: [0.8, 0.9],
-        speed: 4,
-      },
-      svgo: {
-        plugins: [
-          {
-            name: 'removeViewBox',
-          },
-          {
-            name: 'removeEmptyAttrs',
-            active: false,
-          },
-        ],
+      jpeg: {
+        quality: 70,
       },
     }),
   ],
-})
+});
