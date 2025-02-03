@@ -1,9 +1,9 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import reactRefresh from '@vitejs/plugin-react-refresh';
-import viteImagemin from 'vite-plugin-imagemin';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import tailwindcss from '@tailwindcss/vite';
+import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,19 +13,18 @@ export default defineConfig({
     reactRefresh(),
     tsconfigPaths(),
     tailwindcss(),
-    viteImagemin({
-      gifsicle: {
-        optimizationLevel: 7,
-        interlaced: false,
+    ViteImageOptimizer({
+      jpg: {
+        quality: 0.6,
       },
-      optipng: {
-        optimizationLevel: 7,
-      },
-      mozjpeg: {
-        quality: 70,
+      png: {
+        quality: 0.6,
       },
       jpeg: {
-        quality: 70,
+        quality: 0.6,
+      },
+      webp: {
+        quality: 0.6,
       },
     }),
   ],
