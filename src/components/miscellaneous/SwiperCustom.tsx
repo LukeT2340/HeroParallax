@@ -1,13 +1,13 @@
-import { Navigation, Mousewheel, EffectFade, Autoplay } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { useEffect, useState } from "react";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/effect-coverflow";
-import "swiper/css/effect-fade";
+import { Navigation, Mousewheel, EffectFade, Autoplay } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { useEffect, useState } from 'react';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/effect-coverflow';
+import 'swiper/css/effect-fade';
 
-import back from "../assets/images/back-arrow.svg";
-import forward from "../assets/images/forward-arrow.svg";
+import back from '../../assets/images/back-arrow.svg';
+import forward from '../../assets/images/forward-arrow.svg';
 
 type SlidesProps = {
   id: number;
@@ -29,7 +29,7 @@ const SwiperCustom: React.FC<{
         spaceBetween={0}
         modules={[Navigation, Mousewheel, EffectFade, Autoplay]}
         direction="horizontal"
-        slidesPerView={"auto"}
+        slidesPerView={'auto'}
         effect="fade"
         speed={1000}
         autoplay={{
@@ -39,8 +39,8 @@ const SwiperCustom: React.FC<{
         }}
         loop={true}
         navigation={{
-          nextEl: ".image-swiper-button-next",
-          prevEl: ".image-swiper-button-prev",
+          nextEl: '.image-swiper-button-next',
+          prevEl: '.image-swiper-button-prev',
         }}
         onSwiper={(swiper) => {
           setSwiperInstance(swiper);
@@ -52,16 +52,16 @@ const SwiperCustom: React.FC<{
               <img
                 src={slide.image}
                 alt={slide.image}
-                className="object-cover h-full"
+                className="h-full object-cover"
               />
             </div>
           </SwiperSlide>
         ))}
       </Swiper>
-      <div className="swiper-button image-swiper-button-next text-white absolute top-[45%] right-20 z-10">
+      <div className="swiper-button image-swiper-button-next absolute top-[45%] right-20 z-10 text-white">
         <img src={forward} alt="forward button" />
       </div>
-      <div className="swiper-button image-swiper-button-prev text-white absolute top-[45%] left-20 z-[10]">
+      <div className="swiper-button image-swiper-button-prev absolute top-[45%] left-20 z-[10] text-white">
         <img src={back} alt="back button" />
       </div>
     </div>
