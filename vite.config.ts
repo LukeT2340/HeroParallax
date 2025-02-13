@@ -15,16 +15,16 @@ export default defineConfig({
     tailwindcss(),
     ViteImageOptimizer({
       jpg: {
-        quality: 0.6,
+        quality: 60,
       },
       png: {
-        quality: 0.6,
+        quality: 60,
       },
       jpeg: {
-        quality: 0.6,
+        quality: 60,
       },
       webp: {
-        quality: 0.6,
+        quality: 60,
       },
     }),
   ],
