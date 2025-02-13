@@ -54,3 +54,7 @@ export interface AnimateTextProps {
   delay: number;
   inView: boolean;
 }
+
+export type Slide = {
+  image: string;
+};

@@ -5,17 +5,12 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/effect-fade';
-
+import { Slide } from '../../types';
 import back from '../../assets/images/back-arrow.svg';
 import forward from '../../assets/images/forward-arrow.svg';
 
-type SlidesProps = {
-  id: number;
-  image: string;
-};
-
 const SwiperCustom: React.FC<{
-  slidesData: SlidesProps[];
+  slidesData: Slide[];
   keyProp: string;
 }> = ({ slidesData, keyProp }) => {
   const [swiperInstance, setSwiperInstance] = useState({});
@@ -46,12 +41,12 @@ const SwiperCustom: React.FC<{
           setSwiperInstance(swiper);
         }}
       >
-        {slidesData.map((slide: { image: string; id: number }) => (
-          <SwiperSlide key={slide.id}>
+        {slidesData.map((slide: Slide, index: number) => (
+          <SwiperSlide key={slide.image}>
             <div>
               <img
                 src={slide.image}
-                alt={slide.image}
+                alt={`slide-number-${index}`}
                 className="h-full object-cover"
               />
             </div>
