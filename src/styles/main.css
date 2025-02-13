@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+
 @layer base {
   html {
     box-sizing: border-box;
@@ -27,6 +28,6 @@
     font-size: 1.6rem;
     font-weight: normal;
     line-height: 2em;
-    text-wrap: balance;
+    text-wrap: pretty;
   }
 }

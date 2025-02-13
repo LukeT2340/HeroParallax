@@ -1,22 +1,22 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import LocomotiveScroll from 'locomotive-scroll';
-// import { useMediaQuery } from 'react-responsive'
 import {
   LocomotiveScrollProps,
   IExtendedLocomotiveScrollOptions,
 } from '../../types';
+import useMobile from '../../hooks/useMobile';
 
 const LocomotiveParallax: React.FC<LocomotiveScrollProps> = ({
   locoScrollRef,
   children,
 }) => {
   const divRef = locoScrollRef as React.RefObject<HTMLDivElement>;
+  const isMobile = useMobile();
 
-  // const mobile = useMediaQuery({ maxWidth: 1023 })
-
-  // if (mobile) {
-  //   return <div>{children}</div>
-  // }
+  // Comment out if you want parallax on mobile
+  if (isMobile) {
+    return <div>{children}</div>;
+  }
 
   useEffect(() => {
     if (divRef.current) {
