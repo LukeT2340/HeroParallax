@@ -1,4 +1,14 @@
 @import 'tailwindcss';
+@import '../../node_modules/locomotive-scroll/dist/locomotive-scroll';
+
+@theme {
+  /* custom properties here e.g. fonts, colours, images, breakpoints etc
+  --font-fx: 'FX_Neofara', Arial, Helvetica, sans-serif;
+  --black-purple: #201547;
+  --pink: #dc5596;
+  --heroBackground: url('../assets/images/desktop/1.jpg');
+  */
+}
 
 @layer base {
   html {
