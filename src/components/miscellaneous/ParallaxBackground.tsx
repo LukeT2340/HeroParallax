@@ -46,7 +46,6 @@ const ParallaxBackground: React.FC<Props> = ({ layers }) => {
           position.currentY = lerp(position.currentY, position.targetY, 0.007);
 
           const adjustedScale = 1 + depth * 0.3;
-
           const adjustedPositionY =
             position.currentY +
             depth * 15 +
