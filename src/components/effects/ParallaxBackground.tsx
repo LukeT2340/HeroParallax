@@ -1,28 +1,43 @@
 import { lerp } from 'three/src/math/MathUtils.js';
-import { useEffect, useRef } from 'react';
+import { RefObject, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
 import { Layer } from '../../types';
 
 interface Props {
   layers: Layer[];
+  containerRef?: RefObject<HTMLDivElement>;
+  depthOfField?: number;
 }
 
-const ParallaxBackground: React.FC<Props> = ({ layers }) => {
+const ParallaxBackground: React.FC<Props> = ({
+  layers,
+  depthOfField = 1,
+  containerRef,
+}) => {
   layers = processLayers(layers);
 
   useEffect(() => {
-    setupListener(layers);
+    setupListener(layers, containerRef);
   }, []);
 
   return (
     <>
       {layers.map((layer) => (
-        <img
-          src={layer.image}
-          alt="hero layer image"
-          className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
-          key={layer.image}
+        <div
+          className="pointer-events-none absolute inset-0 h-full w-full"
           ref={layer.ref}
-        />
+          key={layer.image}
+          style={{ filter: `blur(${layer.depth * depthOfField}px)` }}
+        >
+          <motion.img
+            src={layer.image}
+            alt="hero layer image"
+            className="h-full w-full object-cover object-center"
+            initial={{ filter: 'blur(20px)' }}
+            animate={{ filter: 'blur(0px)' }}
+            transition={{ duration: 1 }}
+          />
+        </div>
       ))}
     </>
   );
@@ -45,7 +60,10 @@ const processLayers = (layers: Layer[]) => {
 };
 
 // Parallax effect
-const setupListener = (layers: Layer[]) => {
+const setupListener = (
+  layers: Layer[],
+  containerRef?: RefObject<HTMLDivElement>
+) => {
   const parallax = (e: MouseEvent) => {
     layers.forEach((layer) => {
       const { depth, position } = layer;
@@ -60,7 +78,12 @@ const setupListener = (layers: Layer[]) => {
   };
 
   const animate = () => {
-    if (window.scrollY / Math.max(window.innerHeight, 950) < 1) {
+    const normalizedScrollY = containerRef?.current
+      ? -containerRef.current.getBoundingClientRect().top / window.innerHeight
+      : window.scrollY / window.innerHeight;
+    const shouldAnimate = normalizedScrollY < 1;
+
+    if (shouldAnimate) {
       layers.forEach((layer) => {
         const imageElement = layer.ref?.current;
         const { position, depth } = layer;
@@ -71,10 +94,10 @@ const setupListener = (layers: Layer[]) => {
 
         const adjustedScale = 1 + depth * 0.3;
 
-        const adjustedPositionY =
-          position.currentY +
-          depth * 15 +
-          (window.scrollY / window.innerHeight) * 100 * depth;
+        const scrollOffset = normalizedScrollY * 100 * depth;
+
+        const adjustedPositionY = position.currentY + depth * 15 + scrollOffset;
+
         imageElement.style.transform = `translate(${position.currentX}vw, ${adjustedPositionY}vh) scale(${adjustedScale})`;
       });
     }
