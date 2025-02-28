@@ -30,8 +30,8 @@ const ParallaxBackground: React.FC<Props> = ({ layers }) => {
 
         const movingValue = depth * 10;
 
-        position.targetX = (window.innerWidth - e.clientX * movingValue) / 100;
-        position.targetY = (window.innerHeight - e.clientY * movingValue) / 100;
+        position.targetX = (1 - e.clientX * movingValue) / window.innerWidth;
+        position.targetY = (1 - e.clientY * movingValue) / window.innerHeight;
       });
     };
 
@@ -45,14 +45,13 @@ const ParallaxBackground: React.FC<Props> = ({ layers }) => {
           position.currentX = lerp(position.currentX, position.targetX, 0.007);
           position.currentY = lerp(position.currentY, position.targetY, 0.007);
 
-          const adjustedScale = 1 + depth * 0.2;
+          const adjustedScale = 1 + depth * 0.3;
 
           const adjustedPositionY =
             position.currentY +
-            +((window.scrollY * depth * 1) / window.innerHeight) * 1000 +
-            depth * 120;
-
-          imageElement.style.transform = `translate(${position.currentX}px, ${adjustedPositionY}px) scale(${adjustedScale})`;
+            depth * 15 +
+            (window.scrollY / window.innerHeight) * 100 * depth;
+          imageElement.style.transform = `translate(${position.currentX}vw, ${adjustedPositionY}vh) scale(${adjustedScale})`;
         });
       }
       requestAnimationFrame(animate);
@@ -71,10 +70,9 @@ const ParallaxBackground: React.FC<Props> = ({ layers }) => {
         <img
           src={layer.image}
           alt="hero layer image"
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-cover object-center"
           key={layer.image}
           ref={layer.ref}
-          style={{ scale: 1 + layer.depth * 0.2 }}
         />
       ))}
     </>
