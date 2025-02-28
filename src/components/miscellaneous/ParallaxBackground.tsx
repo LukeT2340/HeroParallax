@@ -7,8 +7,30 @@ interface Props {
 }
 
 const ParallaxBackground: React.FC<Props> = ({ layers }) => {
-  // Add reference and position properties to each layer
-  layers = layers
+  layers = processLayers(layers);
+
+  useEffect(() => {
+    setupListener(layers);
+  }, []);
+
+  return (
+    <>
+      {layers.map((layer) => (
+        <img
+          src={layer.image}
+          alt="hero layer image"
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
+          key={layer.image}
+          ref={layer.ref}
+        />
+      ))}
+    </>
+  );
+};
+
+// Adds a ref to each layer, sets the initial position and sorts based on depth
+const processLayers = (layers: Layer[]) => {
+  return layers
     .map((layer) => ({
       ...layer,
       ref: useRef<HTMLImageElement>(null),
@@ -19,64 +41,52 @@ const ParallaxBackground: React.FC<Props> = ({ layers }) => {
         targetY: 0,
       },
     }))
-    .reverse();
+    .sort((a, b) => b.depth - a.depth);
+};
 
-  useEffect(() => {
-    const parallax = (e: MouseEvent) => {
+// Parallax effect
+const setupListener = (layers: Layer[]) => {
+  const parallax = (e: MouseEvent) => {
+    layers.forEach((layer) => {
+      const { depth, position } = layer;
+
+      if (!position) return;
+
+      const movingValue = depth * 10;
+
+      position.targetX = (1 - e.clientX * movingValue) / window.innerWidth;
+      position.targetY = (1 - e.clientY * movingValue) / window.innerHeight;
+    });
+  };
+
+  const animate = () => {
+    if (window.scrollY / Math.max(window.innerHeight, 950) < 1) {
       layers.forEach((layer) => {
-        const { depth, position } = layer;
+        const imageElement = layer.ref?.current;
+        const { position, depth } = layer;
+        if (!imageElement || !position) return;
 
-        if (!position) return;
+        position.currentX = lerp(position.currentX, position.targetX, 0.007);
+        position.currentY = lerp(position.currentY, position.targetY, 0.007);
 
-        const movingValue = depth * 10;
+        const adjustedScale = 1 + depth * 0.3;
 
-        position.targetX = (1 - e.clientX * movingValue) / window.innerWidth;
-        position.targetY = (1 - e.clientY * movingValue) / window.innerHeight;
+        const adjustedPositionY =
+          position.currentY +
+          depth * 15 +
+          (window.scrollY / window.innerHeight) * 100 * depth;
+        imageElement.style.transform = `translate(${position.currentX}vw, ${adjustedPositionY}vh) scale(${adjustedScale})`;
       });
-    };
+    }
+    requestAnimationFrame(animate);
+  };
 
-    const animate = () => {
-      if (window.scrollY / Math.max(window.innerHeight, 950) < 1) {
-        layers.forEach((layer) => {
-          const imageElement = layer.ref?.current;
-          const { position, depth } = layer;
-          if (!imageElement || !position) return;
+  document.addEventListener('mousemove', parallax);
+  animate();
 
-          position.currentX = lerp(position.currentX, position.targetX, 0.007);
-          position.currentY = lerp(position.currentY, position.targetY, 0.007);
-
-          const adjustedScale = 1 + depth * 0.3;
-
-          const adjustedPositionY =
-            position.currentY +
-            depth * 15 +
-            (window.scrollY / window.innerHeight) * 100 * depth;
-          imageElement.style.transform = `translate(${position.currentX}vw, ${adjustedPositionY}vh) scale(${adjustedScale})`;
-        });
-      }
-      requestAnimationFrame(animate);
-    };
-
-    document.addEventListener('mousemove', parallax);
-    animate();
-
-    return () => {
-      document.removeEventListener('mousemove', parallax);
-    };
-  }, []);
-  return (
-    <>
-      {layers.map((layer) => (
-        <img
-          src={layer.image}
-          alt="hero layer image"
-          className="absolute inset-0 h-full w-full object-cover object-center"
-          key={layer.image}
-          ref={layer.ref}
-        />
-      ))}
-    </>
-  );
+  return () => {
+    document.removeEventListener('mousemove', parallax);
+  };
 };
 
 export default ParallaxBackground;
