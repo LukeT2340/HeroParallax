@@ -58,3 +58,15 @@ export interface AnimateTextProps {
 export type Slide = {
   image: string;
 };
+
+export type Layer = {
+  image: string;
+  depth: number;
+  position?: {
+    currentX: number;
+    currentY: number;
+    targetX: number;
+    targetY: number;
+  };
+  ref?: RefObject<HTMLImageElement>;
+};
