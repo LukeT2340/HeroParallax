@@ -34,8 +34,9 @@ const ParallaxBackground: React.FC<Props> = ({
             alt="hero layer image"
             className="h-full w-full object-cover object-center"
             initial={{ filter: 'blur(20px)' }}
-            animate={{ filter: 'blur(0px)' }}
+            whileInView={{ filter: 'blur(0px)' }}
             transition={{ duration: 1 }}
+            viewport={{ once: true }}
           />
         </div>
       ))}
@@ -81,7 +82,8 @@ const setupListener = (
     const normalizedScrollY = containerRef?.current
       ? -containerRef.current.getBoundingClientRect().top / window.innerHeight
       : window.scrollY / window.innerHeight;
-    const shouldAnimate = normalizedScrollY < 1;
+
+    const shouldAnimate = normalizedScrollY < 1 && normalizedScrollY > -1;
 
     if (shouldAnimate) {
       layers.forEach((layer) => {
@@ -101,6 +103,7 @@ const setupListener = (
         imageElement.style.transform = `translate(${position.currentX}vw, ${adjustedPositionY}vh) scale(${adjustedScale})`;
       });
     }
+
     requestAnimationFrame(animate);
   };
 
