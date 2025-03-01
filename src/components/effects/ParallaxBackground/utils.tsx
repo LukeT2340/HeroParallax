@@ -1,46 +1,9 @@
+import { RefObject, useRef } from 'react';
+import { Layer } from '../../../types';
 import { lerp } from 'three/src/math/MathUtils.js';
-import { RefObject, useEffect, useRef } from 'react';
-import { Layer } from '../../types';
-
-interface Props {
-  layers: Layer[];
-  containerRef?: RefObject<HTMLDivElement>;
-  depthOfField?: number;
-}
-
-const ParallaxBackground: React.FC<Props> = ({
-  layers,
-  depthOfField = 1,
-  containerRef,
-}) => {
-  layers = processLayers(layers);
-
-  useEffect(() => {
-    setupListener(layers, containerRef);
-  }, []);
-
-  return (
-    <>
-      {layers.map((layer) => (
-        <div
-          className="pointer-events-none absolute inset-0 h-full w-full"
-          ref={layer.ref}
-          key={layer.image}
-          style={{ filter: `blur(${layer.depth * depthOfField}px)` }}
-        >
-          <img
-            src={layer.image}
-            alt="hero layer image"
-            className="h-full w-full object-cover object-center"
-          />
-        </div>
-      ))}
-    </>
-  );
-};
 
 // Adds a ref to each layer, sets the initial position and sorts based on depth
-const processLayers = (layers: Layer[]) => {
+export const processLayers = (layers: Layer[]) => {
   return layers
     .map((layer) => ({
       ...layer,
@@ -55,8 +18,7 @@ const processLayers = (layers: Layer[]) => {
     .sort((a, b) => b.depth - a.depth);
 };
 
-// Parallax effect
-const setupListener = (
+export const setupListener = (
   layers: Layer[],
   containerRef?: RefObject<HTMLDivElement>
 ) => {
@@ -109,5 +71,3 @@ const setupListener = (
     document.removeEventListener('mousemove', handleMouseMove);
   };
 };
-
-export default ParallaxBackground;
