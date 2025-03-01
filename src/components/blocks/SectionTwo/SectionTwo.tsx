@@ -15,7 +15,7 @@ const SectionTwo: React.FC = () => {
     },
     {
       image: image2,
-      depth: 0,
+      depth: 0.1,
     },
     {
       image: image3,
@@ -33,6 +33,9 @@ const SectionTwo: React.FC = () => {
           containerRef={sectionRef}
         />
         <div className="absolute bottom-0 h-[15vh] w-full bg-gradient-to-t from-[#101208] to-transparent" />
+        <div className="absolute top-[20%] left-1/2 -translate-x-1/2">
+          <h1 className="text-[8rem] font-bold text-white">Hello, World!</h1>
+        </div>
       </div>
 
       {/* Block Two */}
