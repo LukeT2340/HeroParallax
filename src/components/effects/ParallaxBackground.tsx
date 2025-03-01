@@ -1,6 +1,5 @@
 import { lerp } from 'three/src/math/MathUtils.js';
 import { RefObject, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
 import { Layer } from '../../types';
 
 interface Props {
@@ -29,14 +28,10 @@ const ParallaxBackground: React.FC<Props> = ({
           key={layer.image}
           style={{ filter: `blur(${layer.depth * depthOfField}px)` }}
         >
-          <motion.img
+          <img
             src={layer.image}
             alt="hero layer image"
             className="h-full w-full object-cover object-center"
-            initial={{ filter: 'blur(20px)' }}
-            whileInView={{ filter: 'blur(0px)' }}
-            transition={{ duration: 1 }}
-            viewport={{ once: true }}
           />
         </div>
       ))}
@@ -65,17 +60,13 @@ const setupListener = (
   layers: Layer[],
   containerRef?: RefObject<HTMLDivElement>
 ) => {
-  const parallax = (e: MouseEvent) => {
-    layers.forEach((layer) => {
-      const { depth, position } = layer;
+  let mouseX = 0;
+  let mouseY = 0;
 
-      if (!position) return;
-
-      const movingValue = depth * 10;
-
-      position.targetX = (1 - e.clientX * movingValue) / window.innerWidth;
-      position.targetY = (1 - e.clientY * movingValue) / window.innerHeight;
-    });
+  // Update mouse position
+  const handleMouseMove = (e: MouseEvent) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
   };
 
   const animate = () => {
@@ -91,13 +82,17 @@ const setupListener = (
         const { position, depth } = layer;
         if (!imageElement || !position) return;
 
+        // Calculate mouse-based target positions (previously in parallax function)
+        const movingValue = depth * 10;
+        position.targetX = (1 - mouseX * movingValue) / window.innerWidth;
+        position.targetY = (1 - mouseY * movingValue) / window.innerHeight;
+
+        // Interpolate current position towards target
         position.currentX = lerp(position.currentX, position.targetX, 0.007);
         position.currentY = lerp(position.currentY, position.targetY, 0.007);
 
         const adjustedScale = 1 + depth * 0.3;
-
         const scrollOffset = normalizedScrollY * 100 * depth;
-
         const adjustedPositionY = position.currentY + depth * 15 + scrollOffset;
 
         imageElement.style.transform = `translate(${position.currentX}vw, ${adjustedPositionY}vh) scale(${adjustedScale})`;
@@ -107,11 +102,11 @@ const setupListener = (
     requestAnimationFrame(animate);
   };
 
-  document.addEventListener('mousemove', parallax);
+  document.addEventListener('mousemove', handleMouseMove);
   animate();
 
   return () => {
-    document.removeEventListener('mousemove', parallax);
+    document.removeEventListener('mousemove', handleMouseMove);
   };
 };
 
