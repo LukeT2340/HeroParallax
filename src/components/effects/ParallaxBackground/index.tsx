@@ -26,7 +26,7 @@ const ParallaxBackground: React.FC<Props> = ({
           className="pointer-events-none absolute inset-0 h-full w-full"
           ref={layer.ref}
           key={layer.image}
-          style={{ filter: `blur(${layer.depth * depthOfField}px)` }}
+          // style={{ filter: `blur(${layer.depth * depthOfField}px)` }}
         >
           <img
             src={layer.image}
