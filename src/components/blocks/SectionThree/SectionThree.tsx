@@ -43,15 +43,16 @@ const SectionThree: React.FC = () => {
   ];
 
   return (
-    <section className="Section-three relative" ref={sectionRef}>
+    <section
+      className="Section-three relative bg-[#101208] pb-[100vh]"
+      ref={sectionRef}
+    >
       {/* Block One */}
       <div className="block-one relative h-screen w-screen overflow-hidden">
         <ParallaxBackground layers={layers} containerRef={sectionRef} />
+        <div className="absolute top-0 h-[15vh] w-full bg-gradient-to-t from-transparent to-[#101208]" />
         <div className="absolute bottom-0 h-[15vh] w-full bg-gradient-to-t from-[#101208] to-transparent" />
       </div>
-
-      {/* Block Two */}
-      <div className="block-two relative h-screen bg-[#101208]" />
     </section>
   );
 };

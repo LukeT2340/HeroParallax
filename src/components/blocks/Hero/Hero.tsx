@@ -44,15 +44,12 @@ const Hero: React.FC = () => {
   ];
 
   return (
-    <section className="hero relative">
+    <section className="hero relative bg-[#101208] pb-[100vh]">
       {/* Block One */}
       <div className="block-one relative h-screen w-screen overflow-hidden">
         <ParallaxBackground layers={layers} />
         <div className="absolute bottom-0 h-[15vh] w-full bg-gradient-to-t from-[#101208] to-transparent" />
       </div>
-
-      {/* Block Two */}
-      <div className="block-two relative h-screen bg-[#101208]"></div>
     </section>
   );
 };
