@@ -5,6 +5,7 @@ import Footer from './components/blocks/Footer';
 import Hero from './components/blocks/Hero';
 import SectionTwo from './components/blocks/SectionTwo';
 import SectionThree from './components/blocks/SectionThree';
+import SectionFour from './components/blocks/SectionFour';
 
 const App = () => {
   const locoScrollRef = useRef<HTMLElement>(null);
@@ -18,6 +19,7 @@ const App = () => {
             <Hero />
             <SectionTwo />
             <SectionThree />
+            {/* <SectionFour /> */}
           </LocomotiveParallax>
         </article>
         <Footer />

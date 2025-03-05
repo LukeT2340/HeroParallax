@@ -1,4 +1,4 @@
-import { RefObject } from 'react';
+import { ReactNode, RefObject } from 'react';
 import { ILocomotiveScrollOptions } from 'locomotive-scroll';
 
 export type ImageProps = {
@@ -60,7 +60,8 @@ export type Slide = {
 };
 
 export type Layer = {
-  image: string;
+  image?: string;
+  copy?: ReactNode;
   depth: number;
   position?: {
     currentX: number;
