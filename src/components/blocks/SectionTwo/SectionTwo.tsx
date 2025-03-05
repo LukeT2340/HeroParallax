@@ -11,23 +11,23 @@ const SectionTwo: React.FC = () => {
   const layers: Layer[] = [
     {
       image: image1,
-      depth: 0.6,
+      depth: 0.8,
     },
     {
       image: image2,
-      depth: 0.1,
+      depth: 0.3,
     },
     {
       copy: (
-        <h1 className="mb-[250px] text-[8rem] font-bold text-white">
+        <h1 className="mb-[100px] text-[8rem] font-bold text-black">
           Hello, World!
         </h1>
       ),
-      depth: 0.55,
+      depth: 0.6,
     },
     {
       image: image3,
-      depth: 0.4,
+      depth: 0.6,
     },
   ];
 
@@ -35,11 +35,7 @@ const SectionTwo: React.FC = () => {
     <section className="Section-two relative" ref={sectionRef}>
       {/* Block One */}
       <div className="block-one relative h-screen w-screen overflow-hidden">
-        <ParallaxBackground
-          layers={layers}
-          depthOfField={1.5}
-          containerRef={sectionRef}
-        />
+        <ParallaxBackground layers={layers} containerRef={sectionRef} />
         <div className="absolute bottom-0 h-[15vh] w-full bg-gradient-to-t from-[#101208] to-transparent" />
       </div>
 

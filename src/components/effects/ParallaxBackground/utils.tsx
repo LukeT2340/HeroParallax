@@ -44,7 +44,7 @@ export const setupListener = (
         const { position, depth } = layer;
         if (!imageElement || !position) return;
 
-        // Calculate mouse-based target positions (previously in parallax function)
+        // Calculate mouse-based target position
         const movingValue = depth * 10;
         position.targetX = (1 - mouseX * movingValue) / window.innerWidth;
         position.targetY = (1 - mouseY * movingValue) / window.innerHeight;

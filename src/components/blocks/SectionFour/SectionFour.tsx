@@ -15,10 +15,10 @@ const SectionFour: React.FC = () => {
       image: image1,
       depth: 1,
     },
-    // {
-    //   image: image2,
-    //   depth: 0.8,
-    // },
+    {
+      image: image2,
+      depth: 0.8,
+    },
     {
       image: image3,
       depth: 0.6,
@@ -37,11 +37,7 @@ const SectionFour: React.FC = () => {
     <section className="Section-three relative" ref={sectionRef}>
       {/* Block One */}
       <div className="block-one relative h-screen w-screen overflow-hidden">
-        <ParallaxBackground
-          layers={layers}
-          depthOfField={1.5}
-          containerRef={sectionRef}
-        />
+        <ParallaxBackground layers={layers} containerRef={sectionRef} />
         <div className="absolute bottom-0 h-[15vh] w-full bg-gradient-to-t from-[#101208] to-transparent" />
       </div>
 

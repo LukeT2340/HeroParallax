@@ -13,23 +13,32 @@ const SectionThree: React.FC = () => {
   const layers: Layer[] = [
     {
       image: image1,
-      depth: 0.1,
-    },
-    {
-      image: image2,
-      depth: 0.2,
-    },
-    {
-      image: image3,
       depth: 0.3,
     },
     {
-      image: image4,
+      image: image2,
       depth: 0.4,
     },
     {
-      image: image5,
+      image: image3,
       depth: 0.5,
+    },
+    {
+      copy: (
+        <h1 className="mb-[100px] text-[8rem] font-bold text-nowrap text-orange-600">
+          Welcome to New York!
+        </h1>
+      ),
+      depth: 0.1,
+    },
+
+    {
+      image: image4,
+      depth: 0.6,
+    },
+    {
+      image: image5,
+      depth: 0.7,
     },
   ];
 

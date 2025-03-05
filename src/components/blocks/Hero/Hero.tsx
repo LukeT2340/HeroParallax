@@ -27,7 +27,7 @@ const Hero: React.FC = () => {
           Hello, World!
         </h1>
       ),
-      depth: 0.6,
+      depth: 0.75,
     },
     {
       image: image4,
@@ -47,7 +47,7 @@ const Hero: React.FC = () => {
     <section className="hero relative">
       {/* Block One */}
       <div className="block-one relative h-screen w-screen overflow-hidden">
-        <ParallaxBackground layers={layers} depthOfField={1.5} />
+        <ParallaxBackground layers={layers} />
         <div className="absolute bottom-0 h-[15vh] w-full bg-gradient-to-t from-[#101208] to-transparent" />
       </div>
 
